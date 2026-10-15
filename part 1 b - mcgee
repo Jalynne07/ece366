@@ -1,0 +1,37 @@
+module one_bit_full_adder(a, b, cin, s,
+cout);
+
+input a, b, cin;
+output s, cout;
+//reg cin, a, b, cout, added_value;
+
+// My code
+//after you draw the truth table for the full adder and put into a karnough map, the s output is equivalent to a xor b xor cin, cout is equivalent to cout = ab + acin + bcin. so each gate can only have 2 inputs and each output requires a wire except for the outputs that are s and cout.
+  
+  //tests for my program (before i have written test benches)
+  //a = 1; //cannot test inside like in behavioral modeling
+  //b = 0;
+  //cin = 0;
+  //expected added_value = 1, cout = 0
+  
+  wire x;
+  wire y;
+  wire z;
+  wire aa;
+  wire bb;
+  
+  //in verilog, the syntax for gates is gate(output, input, input)
+  
+  xor(x, a, b);
+  xor(s, x, cin);
+  
+  and(y, a, b);
+  and(z, a, cin);
+  and(aa, b, cin);
+  or(bb, y, z);
+  or(cout, bb, aa);
+  
+  $display ("this is the added value %b, this is the carryout: %b", s, cout);
+  
+
+endmodule
