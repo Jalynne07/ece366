@@ -29,7 +29,7 @@ wire Cout;
       
       #5
       
-      $display ("This is what's expected: 0011 1.            This is the added value %b,                      this is the carryout: %b", S, Cout);
+      $display ("This is what's expected: 0011 0.            This is the added value %b,                      this is the carryout: %b", S, Cout);
       
   //    S[0] = 1;
     //  S[1] = 1;
@@ -79,7 +79,7 @@ wire Cout;
 //      #5
       Cin = 1;
       #5
-      $display ("This is what's expected: 1101 0.            This is the added value %b %b %b %b,                      this is the carryout: %b", S[3], S[2], S[1], S[0], Cout);
+      $display ("This is what's expected: 1101 1.            This is the added value %b %b %b %b,                      this is the carryout: %b", S[3], S[2], S[1], S[0], Cout);
       #10
        //carryout addition 7 + 1
       A[3] = 0;
