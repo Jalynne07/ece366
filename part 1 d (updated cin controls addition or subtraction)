@@ -1,5 +1,5 @@
 module four_bit_RCA_RCS(A, B, Cin, S,
-                        Cout); //i will connect by name, the name of my structural one bit adder is: one_bit_full_adder
+                        Cout); //i will connect by name, the structural name of my one bit adder is: one_bit_full_adder
 
 input [3:0] A, B;
 input Cin;
@@ -10,25 +10,29 @@ output Cout;
   wire cout2;
   wire cout3;
   
-  wire rca_subtract; //= 1;
-  or(rca_subtract, Cin, 1); //always gives output of 1 which we need as cin for subtractor
+//  wire rca_subtract; //= 1;
+//  or(rca_subtract, Cin, 1); //always gives output of 1 which we need as cin for subtractor
   
   wire binvert0;
-  not(binvert0, B[0]); //inverting the b input and storing it
+  xor (binvert0, B[0], Cin); //this makes the inversion of b based on if Cin is 1 or not
+//  not(binvert0, B[0]); //inverting the b input and storing it
   
   wire binvert1;
-  not(binvert1, B[1]);
+  xor (binvert1, B[1], Cin);
+//  not(binvert1, B[1]);
   
   wire binvert2;
-  not(binvert2, B[2]);
+  xor (binvert2, B[2], Cin);
+//  not(binvert2, B[2]);
   
   wire binvert3;
-  not(binvert3, B[3]);
+  xor (binvert3, B[3], Cin);
+//  not(binvert3, B[3]);
 
   one_bit_full_adder block1(
     .a           (A[0]), //to connect the variables this is the syntax used
     .b           (binvert0),
-    .cin          (rca_subtract), //this cin for the first input is Cin, for the rest it is the carryout of the before adder as characteristic of full adders
+    .cin          (Cin), //this cin for the first input is Cin, for the rest it is the carryout of the before adder as characteristic of full adders
     .s         (S[0]),
     .cout          (cout1)
   
