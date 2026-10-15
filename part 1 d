@@ -1,0 +1,64 @@
+module four_bit_RCA_RCS(A, B, Cin, S,
+                        Cout); //i will connect by name, the name of my structural one bit adder is: one_bit_full_adder
+
+input [3:0] A, B;
+input Cin;
+output [3:0] S;
+output Cout;
+  
+  wire cout1;
+  wire cout2;
+  wire cout3;
+  
+  wire rca_subtract; //= 1;
+  or(rca_subtract, Cin, 1); //always gives output of 1 which we need as cin for subtractor
+  
+  wire binvert0;
+  not(binvert0, B[0]); //inverting the b input and storing it
+  
+  wire binvert1;
+  not(binvert1, B[1]);
+  
+  wire binvert2;
+  not(binvert2, B[2]);
+  
+  wire binvert3;
+  not(binvert3, B[3]);
+
+  one_bit_full_adder block1(
+    .a           (A[0]), //to connect the variables this is the syntax used
+    .b           (binvert0),
+    .cin          (rca_subtract), //this cin for the first input is Cin, for the rest it is the carryout of the before adder as characteristic of full adders
+    .s         (S[0]),
+    .cout          (cout1)
+  
+  );
+  
+  one_bit_full_adder block2(
+    .a           (A[1]),
+    .b           (binvert1),
+    .cin          (cout1), //this cin for the first input is cout1 the cout output of block1
+    .s         (S[1]),
+    .cout          (cout2)
+  
+  );
+  
+  one_bit_full_adder block3(
+    .a           (A[2]),
+    .b           (binvert2),
+    .cin          (cout2), //this cin for the first input is cout2 the cout output of block2
+    .s         (S[2]),
+    .cout          (cout3)
+  
+  );
+  
+  one_bit_full_adder block4(
+    .a           (A[3]),
+    .b           (binvert3),
+    .cin          (cout3), //this cin for the first input is cout3 the cout output of block3
+    .s         (S[3]),
+    .cout          (Cout)
+  
+  );
+
+ endmodule
