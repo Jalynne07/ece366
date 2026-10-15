@@ -1,0 +1,156 @@
+module _CLA (
+    input  [31:0] A,
+    input  [31:0] B,
+    input         Cin,
+    output [31:0] S,
+    output        Cout
+);
+
+    wire [31:0] P, G;
+    wire [7:0] GP, GG;
+    wire [8:0] C;
+
+    // propagate and generate the equation for g is a*b the equation for p uses or a + b
+    or  (P[0], A[0], B[0]);
+    or  (P[1], A[1], B[1]);
+    or  (P[2], A[2], B[2]);
+    or  (P[3], A[3], B[3]);
+    or  (P[4], A[4], B[4]);
+    or  (P[5], A[5], B[5]);
+    or  (P[6], A[6], B[6]);
+    or  (P[7], A[7], B[7]);
+    or  (P[8], A[8], B[8]);
+    or  (P[9], A[9], B[9]);
+    or  (P[10], A[10], B[10]);
+    or  (P[11], A[11], B[11]);
+    or  (P[12], A[12], B[12]);
+    or  (P[13], A[13], B[13]);
+    or  (P[14], A[14], B[14]);
+    or  (P[15], A[15], B[15]);
+    or  (P[16], A[16], B[16]);
+    or  (P[17], A[17], B[17]);
+    or  (P[18], A[18], B[18]);
+    or  (P[19], A[19], B[19]);
+    or  (P[20], A[20], B[20]);
+    or  (P[21], A[21], B[21]);
+    or  (P[22], A[22], B[22]);
+    or  (P[23], A[23], B[23]);
+    or  (P[24], A[24], B[24]);
+    or  (P[25], A[25], B[25]);
+    or  (P[26], A[26], B[26]);
+    or  (P[27], A[27], B[27]);
+    or  (P[28], A[28], B[28]);
+    or  (P[29], A[29], B[29]);
+    or  (P[30], A[30], B[30]);
+    or  (P[31], A[31], B[31]);
+
+    and (G[0], A[0], B[0]);
+    and (G[1], A[1], B[1]);
+    and (G[2], A[2], B[2]);
+    and (G[3], A[3], B[3]);
+    and (G[4], A[4], B[4]);
+    and (G[5], A[5], B[5]);
+    and (G[6], A[6], B[6]);
+    and (G[7], A[7], B[7]);
+    and (G[8], A[8], B[8]);
+    and (G[9], A[9], B[9]);
+    and (G[10], A[10], B[10]);
+    and (G[11], A[11], B[11]);
+    and (G[12], A[12], B[12]);
+    and (G[13], A[13], B[13]);
+    and (G[14], A[14], B[14]);
+    and (G[15], A[15], B[15]);
+    and (G[16], A[16], B[16]);
+    and (G[17], A[17], B[17]);
+    and (G[18], A[18], B[18]);
+    and (G[19], A[19], B[19]);
+    and (G[20], A[20], B[20]);
+    and (G[21], A[21], B[21]);
+    and (G[22], A[22], B[22]);
+    and (G[23], A[23], B[23]);
+    and (G[24], A[24], B[24]);
+    and (G[25], A[25], B[25]);
+    and (G[26], A[26], B[26]);
+    and (G[27], A[27], B[27]);
+    and (G[28], A[28], B[28]);
+    and (G[29], A[29], B[29]);
+    and (G[30], A[30], B[30]);
+    and (G[31], A[31], B[31]);
+
+    // block propagate
+    assign GP[0] = (P[0] & P[1]) & (P[2] & P[3]);
+    assign GP[1] = (P[4] & P[5]) & (P[6] & P[7]);
+    assign GP[2] = (P[8] & P[9]) & (P[10] & P[11]);
+    assign GP[3] = (P[12] & P[13]) & (P[14] & P[15]);
+    assign GP[4] = (P[16] & P[17]) & (P[18] & P[19]);
+    assign GP[5] = (P[20] & P[21]) & (P[22] & P[23]);
+    assign GP[6] = (P[24] & P[25]) & (P[26] & P[27]);
+    assign GP[7] = (P[28] & P[29]) & (P[30] & P[31]);
+
+    // block generate
+    assign GG[0] = G[3] | (P[3] & G[2]) | ((P[3] & P[2]) & G[1]) | (((P[3] & P[2]) & P[1]) & G[0]);
+    assign GG[1] = G[7] | (P[7] & G[6]) | ((P[7] & P[6]) & G[5]) | (((P[7] & P[6]) & P[5]) & G[4]);
+    assign GG[2] = G[11] | (P[11] & G[10]) | ((P[11] & P[10]) & G[9]) | (((P[11] & P[10]) & P[9]) & G[8]);
+    assign GG[3] = G[15] | (P[15] & G[14]) | ((P[15] & P[14]) & G[13]) | (((P[15] & P[14]) & P[13]) & G[12]);
+    assign GG[4] = G[19] | (P[19] & G[18]) | ((P[19] & P[18]) & G[17]) | (((P[19] & P[18]) & P[17]) & G[16]);
+    assign GG[5] = G[23] | (P[23] & G[22]) | ((P[23] & P[22]) & G[21]) | (((P[23] & P[22]) & P[21]) & G[20]);
+    assign GG[6] = G[27] | (P[27] & G[26]) | ((P[27] & P[26]) & G[25]) | (((P[27] & P[26]) & P[25]) & G[24]);
+    assign GG[7] = G[31] | (P[31] & G[30]) | ((P[31] & P[30]) & G[29]) | (((P[31] & P[30]) & P[29]) & G[28]);
+
+    // initial carry in
+    assign C[0] = Cin;
+
+    // Cla between the four bit blocks - calculates each cin to each rca
+    assign C[1] = GG[0] | (GP[0] & C[0]);
+    assign C[2] = GG[1] | (GP[1] & GG[0]) | ((GP[1] & GP[0]) & C[0]);
+    assign C[3] = GG[2] | (GP[2] & GG[1]) | ((GP[2] & GP[1]) & GG[0]) | (((GP[2] & GP[1]) & GP[0]) & C[0]);
+    assign C[4] = GG[3] | (GP[3] & GG[2]) | ((GP[3] & GP[2]) & GG[1]) | (((GP[3] & GP[2]) & GP[1]) & GG[0]) | ((((GP[3] & GP[2]) & GP[1]) & GP[0]) & C[0]);
+    assign C[5] = GG[4] | (GP[4] & GG[3]) | ((GP[4] & GP[3]) & GG[2]) | (((GP[4] & GP[3]) & GP[2]) & GG[1]) | ((((GP[4] & GP[3]) & GP[2]) & GP[1]) & GG[0]) | (((((GP[4] & GP[3]) & GP[2]) & GP[1]) & GP[0]) & C[0]);
+    assign C[6] = GG[5] | (GP[5] & GG[4]) | ((GP[5] & GP[4]) & GG[3]) | (((GP[5] & GP[4]) & GP[3]) & GG[2]) | ((((GP[5] & GP[4]) & GP[3]) & GP[2]) & GG[1]) | (((((GP[5] & GP[4]) & GP[3]) & GP[2]) & GP[1]) & GG[0]) | ((((((GP[5] & GP[4]) & GP[3]) & GP[2]) & GP[1]) & GP[0]) & C[0]);
+  assign C[7] = GG[6] | (GP[6] & GG[5]) | ((GP[6] & GP[5]) & GG[4]) | (((GP[6] & GP[5]) & GP[4]) & GG[3]) | ((((GP[6] & GP[5]) & GP[4]) & GP[3]) & GG[2]) | (((((GP[6] & GP[5]) & GP[4]) & GP[3]) & GP[2]) & GG[1]) | ((((((GP[6] & GP[5]) & GP[4]) & GP[3]) & GP[2]) & GP[1]) & GG[0]) | (((((((GP[6] & GP[5]) & GP[4]) & GP[3]) & GP[2]) & GP[1]) & GP[0]) & C[0]);
+
+    assign C[8] = GG[7] | (GP[7] & GG[6]) | ((GP[7] & GP[6]) & GG[5]) | (((GP[7] & GP[6]) & GP[5]) & GG[4]) | ((((GP[7] & GP[6]) & GP[5]) & GP[4]) & GG[3]) | (((((GP[7] & GP[6]) & GP[5]) & GP[4]) & GP[3]) & GG[2]) | ((((((GP[7] & GP[6]) & GP[5]) & GP[4]) & GP[3]) & GP[2]) & GG[1]) | (((((((GP[7] & GP[6]) & GP[5]) & GP[4]) & GP[3]) & GP[2]) & GP[1]) & GG[0]) | ((((((((GP[7] & GP[6]) & GP[5]) & GP[4]) & GP[3]) & GP[2]) & GP[1]) & GP[0]) & C[0]);
+
+    // the eight four bit RCA blocks
+  four_bit_RCA_RCS block0 ( //same convention as in four_bit_RCA
+        .A(A[3:0]), .B(B[3:0]), .Cin(C[0]),
+        .S(S[3:0]), .Cout()
+    );
+
+    four_bit_RCA_RCS block1 (
+        .A(A[7:4]), .B(B[7:4]), .Cin(C[1]),
+        .S(S[7:4]), .Cout()
+    );
+
+    four_bit_RCA_RCS block2 (
+        .A(A[11:8]), .B(B[11:8]), .Cin(C[2]),
+        .S(S[11:8]), .Cout()
+    );
+
+    four_bit_RCA_RCS block3 (
+        .A(A[15:12]), .B(B[15:12]), .Cin(C[3]),
+        .S(S[15:12]), .Cout()
+    );
+
+    four_bit_RCA_RCS block4 (
+        .A(A[19:16]), .B(B[19:16]), .Cin(C[4]),
+        .S(S[19:16]), .Cout()
+    );
+
+    four_bit_RCA_RCS block5 (
+        .A(A[23:20]), .B(B[23:20]), .Cin(C[5]),
+        .S(S[23:20]), .Cout()
+    );
+
+    four_bit_RCA_RCS block6 (
+        .A(A[27:24]), .B(B[27:24]), .Cin(C[6]),
+        .S(S[27:24]), .Cout()
+    );
+
+    four_bit_RCA_RCS block7 (
+        .A(A[31:28]), .B(B[31:28]), .Cin(C[7]),
+        .S(S[31:28]), .Cout()
+    );
+
+    // Final carry-out
+    assign Cout = C[8];
